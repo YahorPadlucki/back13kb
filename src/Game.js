@@ -8,7 +8,7 @@ init = function () {
     // engine.elementsToUpdate.push(player);
 
     engine.init();
-    level.load_level(1)
+    level.loadLevel(1)
 
 
 };

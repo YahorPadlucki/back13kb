@@ -20,7 +20,12 @@ var Engine = (function (global) {
 
     Engine.prototype.enterFrame = function () {
 
-        GameModel.getInstance().ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        // GameModel.getInstance().ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+        ctx.save();
+        ctx.setTransform(1,0,0,1,0,0);
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.restore();
 
         var now = Date.now();
         var deltaTime = (now - this.prevTime) / 1000.0;

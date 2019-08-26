@@ -17,47 +17,26 @@ var Level = (function () {
 
             this.scale = 1;
 
-            this.width = 800;
-            this.height = 600
-
-            // var imageData = this.ctx.getImageData(0, 0, width, height);
-            // var copiedCanvas = $("<canvas>").attr("width", width).attr("height", height)[0];
-            // copiedCanvas.getContext("2d").putImageData(imageData, 0, 0);
-        //
         }
 
 
         Level.prototype.zoom = function (e) {
-            console.log(` ${e.code}`);
-
-            // if (e.code == 'Space') {
-            //   if(this.tileSize==20)
-            //       this.zoom=-1;
-            //     if(this.tileSize==10)
-            //         this.zoom=1;
-            // }
-            //
-            // this.tileSize += this.zoom;
+            var pointToZoom = {x: this.ctx.canvas.width / 2, y: this.ctx.canvas.height / 2};
+            this.scale -= 0.0001;
+            this.ctx.translate(pointToZoom.x, pointToZoom.y);
+            this.ctx.scale(this.scale, this.scale);
+            this.ctx.translate(-pointToZoom.x, -pointToZoom.y);
+        };
 
 
-            // this.isLevelLoaded = false
-
-
-
-
-            this.scale-=0.5;
-
-
-        }
-
-
-        Level.prototype.load_image = function (name, callback) {
+        Level.prototype.loadLevelImage = function (name, callback) {
             var temp = new Image();
             temp.src = 'm/' + name + '.png';
             temp.onload = () => callback(temp);
-        }
+        };
         Level.prototype.draw = function () {
             if (!this.isLevelLoaded) return;
+
             for (i = 0; i < this.level_width; i++) {
                 for (j = 0; j < this.level_height; j++) {
 
@@ -77,8 +56,8 @@ var Level = (function () {
             }
         };
 
-        Level.prototype.load_level = function (id) {
-            this.load_image('l' + id, (data) => {
+        Level.prototype.loadLevel = function (id) {
+            this.loadLevelImage('l' + id, (data) => {
                 entities = [];
                 num_verts = 0;
                 num_lights = 0;
@@ -88,13 +67,8 @@ var Level = (function () {
 
                 this.temp = document.createElement('canvas');
 
-
-                // this.temp = document.createElement('canvas');
-                // this.temp.width = this.temp.height = level_width; // assume square levels
-
                 this.temp.width = this.temp.height = this.level_width; // assume square levels
-                // this.temp = this.ctx
-                this.temp = this.temp.getContext('2d')
+                this.temp = this.temp.getContext('2d');
 
                 this.temp.drawImage(data, 0, 0);
                 this.temp = this.temp.getImageData(0, 0, this.level_width, this.level_height).data;
@@ -172,10 +146,10 @@ var Level = (function () {
                 // level_num_verts = num_verts;
                 // callback && callback();
 
-                console.log(this.level_data)
+                console.log(this.level_data);
                 this.isLevelLoaded = true;
             });
-        }
+        };
         return Level;
     }()
 );
