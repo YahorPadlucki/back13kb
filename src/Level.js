@@ -2,16 +2,17 @@ var Level = (function () {
 
         function Level() {
 
-            this.level_width = 64;
-            this.level_height = 64;
+
             this.level_data = [];
 
-            this.tileSize = 20;
 
             this.model = GameModel.getInstance();
             this.ctx = this.model.ctx;
 
-            this.isLevelLoaded = false;
+            this.level_width = this.model.columns;
+            this.level_height = this.model.rows;
+            this.tileSize = this.model.TILE;
+
 
             document.addEventListener("keydown", this.zoom.bind(this))
 
@@ -35,7 +36,7 @@ var Level = (function () {
             temp.onload = () => callback(temp);
         };
         Level.prototype.draw = function () {
-            if (!this.isLevelLoaded) return;
+            if (!this.model.isLevelLoaded) return;
 
             for (i = 0; i < this.level_width; i++) {
                 for (j = 0; j < this.level_height; j++) {
@@ -147,7 +148,14 @@ var Level = (function () {
                 // callback && callback();
 
                 console.log(this.level_data);
-                this.isLevelLoaded = true;
+                this.model.level=this.level_data;
+
+                    for (var i = 0; i < this.model.level.length; i++) {
+                        this.model.cells = this.model.cells.concat(this.model.level[i]);
+                    }
+
+
+                this.model.isLevelLoaded = true;
             });
         };
         return Level;

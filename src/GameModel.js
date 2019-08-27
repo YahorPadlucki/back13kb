@@ -6,16 +6,20 @@ var GameModel = (function () {
         this.level = [
         ];
 
+        this.cells=[];
         return {
             ctx: "",
-            TILE: 32,
-            columns: 15,
-            rows: 15,
+            TILE: 20,
+            columns: 64,
+            rows: 64,
             level: this.level,
+            cells:this.cells,
             currentLevel: 0,
             gameEnded: false,
             lifes: 3,
             showTutor: true,
+            isLevelLoaded:false,
+
         };
 
 

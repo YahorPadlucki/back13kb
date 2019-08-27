@@ -4,8 +4,11 @@ init = function () {
     var level = new Level();
     engine.elementsToDraw.push(level);
 
+    var player = new Player();
 
-    // engine.elementsToUpdate.push(player);
+    engine.elementsToDraw.push(player);
+
+    engine.elementsToUpdate.push(player);
 
     engine.init();
     level.loadLevel(1)
