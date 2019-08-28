@@ -7,8 +7,8 @@ var Player = (function () {
 
         this.tileSize = this.model.TILE;
 
-        this.x = this.tileSize * 10;
-        this.y = this.tileSize * 22;
+        this.x = this.tileSize * 12;
+        this.y = this.tileSize * 20;
 
         this.speed = 1;
 
@@ -25,12 +25,15 @@ var Player = (function () {
 
         this.friction = 1 / 6;
         this.falling = false;
-        this.accel = 0.01;
-        this.gravity = 0.01;
+        this.accel = 50;
+        this.gravity = 9.8*6;
 
-        this.maxdx = 15;   // default max horizontal speed (15 tiles per second)
-        this.maxdy = 60;      // default max vertical speed   (60 tiles per second)
-        this.impulse = 150;      // default max vertical speed   (60 tiles per second)
+        this.maxdx = 150;   // default max horizontal speed (15 tiles per second)
+        this.maxdy = 600;      // default max vertical speed   (60 tiles per second)
+        this.impulse = 15000;      // default max vertical speed   (60 tiles per second)
+
+        document.addEventListener('keydown',(ev)=> this.onkey(ev,ev.keyCode,true));
+        document.addEventListener('keyup',  (ev)=>this.onkey(ev, ev.keyCode,false));
 
     }
 
@@ -43,7 +46,7 @@ var Player = (function () {
             ctx.fillStyle = "#ff1037";
 
 
-        ctx.fillRect(this.x + (this.dx * dt) + this.tileSize, this.y + (this.dy * dt) + this.tileSize, this.tileSize, this.tileSize)
+        ctx.fillRect(this.x + (this.dx * dt), this.y + (this.dy * dt), this.tileSize, this.tileSize)
     };
 
     Player.prototype.update = function (dt) {
@@ -116,6 +119,8 @@ var Player = (function () {
         }
 
         if (entity.dx > 0) {
+            console.log(cellright)
+
             if ((cellright && !cell) ||
                 (celldiag && !celldown && ny)) {
                 entity.x = this.t2p(tx);
@@ -125,6 +130,7 @@ var Player = (function () {
         else if (entity.dx < 0) {
             if ((cell && !cellright) ||
                 (celldown && !celldiag && ny)) {
+
                 entity.x = this.t2p(tx + 1);
                 entity.dx = 0;
             }
@@ -136,13 +142,14 @@ var Player = (function () {
                  entity.right = true;
              }
              else*/
-        if (entity.right && (cellright || !celldiag)) {
-            entity.right = false;
-            entity.left = true;
-        }
+        // if (entity.right && (cellright || !celldiag)) {
+        //     entity.right = false;
+        //     entity.left = true;
+        // }
         // }
 
-        // entity.falling = ! (celldown || (nx && celldiag));
+        entity.falling = ! (celldown || (nx && celldiag));
+
 
 
     };

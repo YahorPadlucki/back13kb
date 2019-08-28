@@ -14,7 +14,7 @@ var Level = (function () {
             this.tileSize = this.model.TILE;
 
 
-            document.addEventListener("keydown", this.zoom.bind(this))
+            // document.addEventListener("keydown", this.zoom.bind(this))
 
             this.scale = 1;
 
@@ -88,9 +88,9 @@ var Level = (function () {
 
                         var elID = 0;
                         if (color_key == 0x888)//wall
-                            elID = 1
-                        if (color_key == 0xFFF)//floor
                             elID = 2
+                        if (color_key == 0xFFF)//floor
+                            elID = 0
 
 
                         this.level_data[y][x] = elID;
@@ -147,12 +147,15 @@ var Level = (function () {
                 // level_num_verts = num_verts;
                 // callback && callback();
 
-                console.log(this.level_data);
                 this.model.level=this.level_data;
 
+                var cells = []
                     for (var i = 0; i < this.model.level.length; i++) {
-                        this.model.cells = this.model.cells.concat(this.model.level[i]);
+                        cells=  cells.concat(this.model.level[i]);
                     }
+                this.model.cells = cells;
+
+                console.log( this.model.level);
 
 
                 this.model.isLevelLoaded = true;
