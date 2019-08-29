@@ -23,14 +23,14 @@ var Player = (function () {
 
         this.cells = [];
 
-        this.friction = 1 / 6;
+        this.friction = 200;
         this.falling = false;
-        this.accel = 50;
-        this.gravity = 9.8*6;
+        this.accel = 200;
+        this.gravity = 500;
 
-        this.maxdx = 150;   // default max horizontal speed (15 tiles per second)
-        this.maxdy = 600;      // default max vertical speed   (60 tiles per second)
-        this.impulse = 15000;      // default max vertical speed   (60 tiles per second)
+        this.maxdx = 100;
+        this.maxdy = 450;
+        this.impulse = 17000;
 
         document.addEventListener('keydown',(ev)=> this.onkey(ev,ev.keyCode,true));
         document.addEventListener('keyup',  (ev)=>this.onkey(ev, ev.keyCode,false));
