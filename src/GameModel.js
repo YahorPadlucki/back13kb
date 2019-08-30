@@ -19,6 +19,7 @@ var GameModel = (function () {
             lifes: 3,
             showTutor: true,
             isLevelLoaded:false,
+            playerPositions:{}
 
         };
 

@@ -14,7 +14,7 @@ var Level = (function () {
             this.tileSize = this.model.TILE;
 
 
-            // document.addEventListener("keydown", this.zoom.bind(this))
+            document.addEventListener("keydown", this.move.bind(this))
 
             this.scale = 1;
 
@@ -27,6 +27,23 @@ var Level = (function () {
             this.ctx.translate(pointToZoom.x, pointToZoom.y);
             this.ctx.scale(this.scale, this.scale);
             this.ctx.translate(-pointToZoom.x, -pointToZoom.y);
+        };
+
+        var prevx = 240;
+
+
+        Level.prototype.move = function (e) {
+
+            // console.log(this.model.playerPositions.x * this.model.TILE)
+            // if (e.keyCode == 32) {
+                var delta=prevx- this.model.playerPositions.x * this.model.TILE
+                this.ctx.save();
+                this.ctx.translate(delta, 0);
+
+                prevx= this.model.playerPositions.x * this.model.TILE
+                // this.ctx.restore();
+            // }
+
         };
 
 
@@ -55,6 +72,9 @@ var Level = (function () {
                     this.ctx.fillRect(j * this.tileSize, i * this.tileSize, this.tileSize, this.tileSize);
                 }
             }
+
+            this.move();
+
         };
 
         Level.prototype.loadLevel = function (id) {
@@ -147,15 +167,15 @@ var Level = (function () {
                 // level_num_verts = num_verts;
                 // callback && callback();
 
-                this.model.level=this.level_data;
+                this.model.level = this.level_data;
 
                 var cells = []
-                    for (var i = 0; i < this.model.level.length; i++) {
-                        cells=  cells.concat(this.model.level[i]);
-                    }
+                for (var i = 0; i < this.model.level.length; i++) {
+                    cells = cells.concat(this.model.level[i]);
+                }
                 this.model.cells = cells;
 
-                console.log( this.model.level);
+                console.log(this.model.level);
 
 
                 this.model.isLevelLoaded = true;
