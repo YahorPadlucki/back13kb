@@ -13,6 +13,7 @@ var Level = (function () {
             this.level_height = this.model.rows;
             this.tileSize = this.model.TILE;
 
+            this.levelPosX = 0;
 
             document.addEventListener("keydown", this.move.bind(this))
 
@@ -29,21 +30,29 @@ var Level = (function () {
             this.ctx.translate(-pointToZoom.x, -pointToZoom.y);
         };
 
-        var prevx = 240;
-
-
+        var moveSpeedX = 300;
         Level.prototype.move = function (e) {
 
-            // console.log(this.model.playerPositions.x * this.model.TILE)
-            // if (e.keyCode == 32) {
-                var delta=prevx- this.model.playerPositions.x * this.model.TILE
-                this.ctx.save();
-                this.ctx.translate(delta, 0);
-
-                prevx= this.model.playerPositions.x * this.model.TILE
-                // this.ctx.restore();
+            // var delta = this.levelPosX - this.model.playerCurrentTile.x * this.model.TILE;
+            // if (Math.abs(delta) > 20) {
+            //
+            //     var speedX = -moveSpeedX;
+            //     if (delta < 0)
+            //         speedX = moveSpeedX;
+            //
+            //     this.ctx.translate(-speedX * dt, 0);
+            //
+            //     this.levelPosX+=speedX * dt;
+            //     console.log( delta)
+            //
+            //
             // }
 
+            console.log(e.keyCode)
+            // if(e.keyCode==32)
+            this.ctx.translate(-30*this.model.TILE, 0);
+
+            // console.log(this.model.playerCurrentTile.x * this.model.TILE)
         };
 
 
@@ -52,7 +61,7 @@ var Level = (function () {
             temp.src = 'm/' + name + '.png';
             temp.onload = () => callback(temp);
         };
-        Level.prototype.draw = function () {
+        Level.prototype.draw = function (dt) {
             if (!this.model.isLevelLoaded) return;
 
             for (i = 0; i < this.level_width; i++) {
@@ -73,7 +82,7 @@ var Level = (function () {
                 }
             }
 
-            this.move();
+            // this.move(dt);
 
         };
 

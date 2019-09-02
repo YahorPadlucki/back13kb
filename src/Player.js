@@ -7,8 +7,10 @@ var Player = (function () {
 
         this.tileSize = this.model.TILE;
 
-        this.x = this.tileSize * 12;
-        this.y = this.tileSize * 20;
+        this.x = this.tileSize * this.model.playerCurrentTile.x;
+        this.y = this.tileSize * this.model.playerCurrentTile.y;
+        this.lastTileX = this.model.playerCurrentTile.x;
+        this.lastTileY = this.model.playerCurrentTile.y;
 
         this.speed = 1;
 
@@ -32,6 +34,7 @@ var Player = (function () {
         this.maxdy = 450;
         this.impulse = 17000;
 
+
         document.addEventListener('keydown', (ev) => this.onkey(ev, ev.keyCode, true));
         document.addEventListener('keyup', (ev) => this.onkey(ev, ev.keyCode, false));
 
@@ -49,10 +52,11 @@ var Player = (function () {
         ctx.fillRect(this.x + (this.dx * dt), this.y + (this.dy * dt), this.tileSize, this.tileSize)
     };
 
-    var lastX;
-    var lastY;
+
     Player.prototype.update = function (dt) {
         if (!this.model.isLevelLoaded) return;
+
+        this.model.playerPreviousTile = {x: this.lastTileX, y: this.lastTileY};
 
 
         var entity = this;
@@ -150,23 +154,12 @@ var Player = (function () {
         // }
         // console.log(tx)
         // console.log(ty)
-        var deltaX;
-        var deltaY;
-        if (lastX==='undefined') {
-            deltaX = 0;
-            deltaY = 0;
-        }else
-        {
-            deltaX= lastX-tx;
-            deltaY= lastY-ty;
-        }
+
+        this.model.playerCurrentTile = {x: tx, y: ty};
 
 
-        this.model.playerPositions = {x: tx, y: ty};
-
-
-        lastX=tx;
-        lastY=ty;
+        this.lastTileX = tx;
+        this.lastTileY = ty;
 
         entity.falling = !(celldown || (nx && celldiag));
 
