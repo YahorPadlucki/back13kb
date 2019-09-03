@@ -15,9 +15,12 @@ var Level = (function () {
 
             this.levelPosX = 0;
 
-            document.addEventListener("keydown", this.move.bind(this))
+            // document.addEventListener("keydown", this.move.bind(this))
 
             this.scale = 1;
+            this.tilesOnScreen = 32; //640/20
+            this.levelXOffset = 0;
+            this.levelYOffset = 0;
 
         }
 
@@ -32,27 +35,26 @@ var Level = (function () {
 
         var moveSpeedX = 300;
         Level.prototype.move = function (e) {
+            if (this.model.playerCurrentTile.x > this.levelXOffset + this.tilesOnScreen) {
+                this.ctx.translate(-this.tilesOnScreen * this.model.TILE, 0);
+                this.levelXOffset += this.tilesOnScreen;
+            }
+            if (this.model.playerCurrentTile.x < this.levelXOffset) {
+                this.ctx.translate(this.tilesOnScreen * this.model.TILE, 0);
+                this.levelXOffset -= this.tilesOnScreen;
+            }
 
-            // var delta = this.levelPosX - this.model.playerCurrentTile.x * this.model.TILE;
-            // if (Math.abs(delta) > 20) {
-            //
-            //     var speedX = -moveSpeedX;
-            //     if (delta < 0)
-            //         speedX = moveSpeedX;
-            //
-            //     this.ctx.translate(-speedX * dt, 0);
-            //
-            //     this.levelPosX+=speedX * dt;
-            //     console.log( delta)
-            //
-            //
-            // }
+            if (this.model.playerCurrentTile.y > this.levelYOffset + this.tilesOnScreen) {
+                this.ctx.translate(0, -this.tilesOnScreen * this.model.TILE);
+                this.levelYOffset += this.tilesOnScreen;
+            }
+            if (this.model.playerCurrentTile.y < this.levelYOffset) {
+                this.ctx.translate(0,this.tilesOnScreen * this.model.TILE);
+                this.levelYOffset -= this.tilesOnScreen;
+            }
 
-            console.log(e.keyCode)
             // if(e.keyCode==32)
-            this.ctx.translate(-30*this.model.TILE, 0);
 
-            // console.log(this.model.playerCurrentTile.x * this.model.TILE)
         };
 
 
@@ -82,7 +84,7 @@ var Level = (function () {
                 }
             }
 
-            // this.move(dt);
+            this.move(dt);
 
         };
 
