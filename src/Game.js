@@ -5,10 +5,14 @@ init = function () {
     engine.elementsToDraw.push(level);
 
     var player = new Player();
+    var flea = new Flea();
+
 
     engine.elementsToDraw.push(player);
+    engine.elementsToDraw.push(flea);
 
     engine.elementsToUpdate.push(player);
+    engine.elementsToUpdate.push(flea);
 
     engine.init();
     level.loadLevel(1)
