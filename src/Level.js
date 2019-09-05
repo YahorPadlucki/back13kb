@@ -33,7 +33,6 @@ var Level = (function () {
             this.ctx.translate(-pointToZoom.x, -pointToZoom.y);
         };
 
-        var moveSpeedX = 300;
         Level.prototype.move = function (e) {
             if (this.model.playerCurrentTile.x > this.levelXOffset + this.tilesOnScreen) {
                 this.ctx.translate(-this.tilesOnScreen * this.model.TILE, 0);
@@ -84,7 +83,7 @@ var Level = (function () {
                 }
             }
 
-            this.move(dt);
+            // this.move(dt);
 
         };
 

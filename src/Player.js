@@ -39,6 +39,17 @@ var Player = (function () {
 
     }
 
+    Player.prototype.update = function (dt) {
+        if (!this.model.isLevelLoaded) return;
+        this.model.playerPreviousTile = {x: this.lastTileX, y: this.lastTileY};
+        Entity.prototype.update.call(this,dt);
+
+        this.model.playerCurrentTile = {x: this.tx, y: this.ty};
+
+        this.lastTileX = this.tx;
+        this.lastTileY = this.ty;
+    };
+
 
     Player.prototype.draw = function (dt) {
         var ctx = this.model.ctx;
@@ -48,7 +59,7 @@ var Player = (function () {
             ctx.fillStyle = "#ff1037";
 
 
-        ctx.fillRect(this.x + (this.dx * dt), this.y + (this.dy * dt), this.tileSize, this.tileSize)
+        ctx.fillRect((this.x+this.size/2) + (this.dx * dt), (this.y+this.size/2) + (this.dy * dt), this.size, this.size)
     };
 
 

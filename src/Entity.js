@@ -7,13 +7,15 @@ var Entity = (function () {
         this.right = false;
         this.monster = false;
 
+        this.size = this.tileSize/2;
+
+        this.tx = 0;
+        this.ty = 0;
+
     }
 
     Entity.prototype.update = function (dt) {
         if (!this.model.isLevelLoaded) return;
-
-        this.model.playerPreviousTile = {x: this.lastTileX, y: this.lastTileY};
-
 
         var entity = this;
         var wasleft = entity.dx < 0,
@@ -50,19 +52,19 @@ var Entity = (function () {
             entity.dx = 0; // clamp at zero to prevent friction from making us jiggle side to side
         }
 
-        var tx = this.p2t(entity.x),
-            ty = this.p2t(entity.y),
-            nx = entity.x % this.tileSize,
+        this.tx = this.p2t(entity.x);
+        this.ty = this.p2t(entity.y);
+        var nx = entity.x % this.tileSize,
             ny = entity.y % this.tileSize,
-            cell = this.tcell(tx, ty),
-            cellright = this.tcell(tx + 1, ty),
-            celldown = this.tcell(tx, ty + 1),
-            celldiag = this.tcell(tx + 1, ty + 1);
+            cell = this.tcell(this.tx, this.ty),
+            cellright = this.tcell(this.tx + 1, this.ty),
+            celldown = this.tcell(this.tx, this.ty + 1),
+            celldiag = this.tcell(this.tx + 1, this.ty + 1);
 
         if (entity.dy > 0) {
             if ((celldown && !cell) ||
                 (celldiag && !cellright && nx)) {
-                entity.y = this.t2p(ty);
+                entity.y = this.t2p(this.ty);
                 entity.dy = 0;
                 entity.falling = false;
                 entity.jumping = false;
@@ -72,7 +74,7 @@ var Entity = (function () {
         else if (entity.dy < 0) {
             if ((cell && !celldown) ||
                 (cellright && !celldiag && nx)) {
-                entity.y = this.t2p(ty + 1);
+                entity.y = this.t2p(this.ty + 1);
                 entity.dy = 0;
                 cell = celldown;
                 cellright = celldiag;
@@ -84,7 +86,7 @@ var Entity = (function () {
 
             if ((cellright && !cell) ||
                 (celldiag && !celldown && ny)) {
-                entity.x = this.t2p(tx);
+                entity.x = this.t2p(this.tx);
                 entity.dx = 0;
             }
         }
@@ -92,7 +94,7 @@ var Entity = (function () {
             if ((cell && !cellright) ||
                 (celldown && !celldiag && ny)) {
 
-                entity.x = this.t2p(tx + 1);
+                entity.x = this.t2p(this.tx + 1);
                 entity.dx = 0;
             }
         }
@@ -110,11 +112,6 @@ var Entity = (function () {
         // console.log(tx)
         // console.log(ty)
 
-        this.model.playerCurrentTile = {x: tx, y: ty};
-
-
-        this.lastTileX = tx;
-        this.lastTileY = ty;
 
         entity.falling = !(celldown || (nx && celldiag));
 
