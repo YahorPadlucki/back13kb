@@ -34,6 +34,7 @@ var Level = (function () {
         };
 
         Level.prototype.move = function (e) {
+
             if (this.model.playerCurrentTile.x > this.levelXOffset + this.tilesOnScreen) {
                 this.ctx.translate(-this.tilesOnScreen * this.model.TILE, 0);
                 this.levelXOffset += this.tilesOnScreen;
@@ -83,7 +84,7 @@ var Level = (function () {
                 }
             }
 
-            // this.move(dt);
+            this.move(dt);
 
         };
 

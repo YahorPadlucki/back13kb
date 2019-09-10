@@ -7,10 +7,8 @@ var Entity = (function () {
         this.right = false;
         this.monster = false;
 
-        this.size = this.tileSize/2;
-
-        this.tx = 0;
-        this.ty = 0;
+        this.tileX = 0;
+        this.tileY = 0;
 
     }
 
@@ -52,29 +50,30 @@ var Entity = (function () {
             entity.dx = 0; // clamp at zero to prevent friction from making us jiggle side to side
         }
 
-        this.tx = this.p2t(entity.x);
-        this.ty = this.p2t(entity.y);
+        this.tileX = this.p2t(entity.x);
+        this.tileY = this.p2t(entity.y);
         var nx = entity.x % this.tileSize,
             ny = entity.y % this.tileSize,
-            cell = this.tcell(this.tx, this.ty),
-            cellright = this.tcell(this.tx + 1, this.ty),
-            celldown = this.tcell(this.tx, this.ty + 1),
-            celldiag = this.tcell(this.tx + 1, this.ty + 1);
+            cell = this.tcell(this.tileX, this.tileY),
+            cellright = this.tcell(this.tileX + 1, this.tileY),
+            celldown = this.tcell(this.tileX, this.tileY + 1),
+            celldiag = this.tcell(this.tileX + 1, this.tileY + 1);
 
         if (entity.dy > 0) {
             if ((celldown && !cell) ||
                 (celldiag && !cellright && nx)) {
-                entity.y = this.t2p(this.ty);
+                entity.y = this.t2p(this.tileY);
                 entity.dy = 0;
                 entity.falling = false;
                 entity.jumping = false;
                 ny = 0;
+
             }
         }
         else if (entity.dy < 0) {
             if ((cell && !celldown) ||
                 (cellright && !celldiag && nx)) {
-                entity.y = this.t2p(this.ty + 1);
+                entity.y = this.t2p(this.tileY + 1);
                 entity.dy = 0;
                 cell = celldown;
                 cellright = celldiag;
@@ -82,11 +81,12 @@ var Entity = (function () {
             }
         }
 
+
         if (entity.dx > 0) {
 
             if ((cellright && !cell) ||
                 (celldiag && !celldown && ny)) {
-                entity.x = this.t2p(this.tx);
+                entity.x = this.t2p(this.tileX);
                 entity.dx = 0;
             }
         }
@@ -94,7 +94,7 @@ var Entity = (function () {
             if ((cell && !cellright) ||
                 (celldown && !celldiag && ny)) {
 
-                entity.x = this.t2p(this.tx + 1);
+                entity.x = this.t2p(this.tileX + 1);
                 entity.dx = 0;
             }
         }
@@ -109,7 +109,6 @@ var Entity = (function () {
                 entity.left = true;
             }
         }
-        // console.log(tx)
         // console.log(ty)
 
 
@@ -123,16 +122,25 @@ var Entity = (function () {
     };
 
     Entity.prototype.t2p = function (t) {
-        return t * this.tileSize;
+        return t * (this.tileSize);
     };
+
     Entity.prototype.p2t = function (p) {
-        return Math.floor(p / this.tileSize);
+        return Math.floor(p / (this.tileSize));
     };
+
     Entity.prototype.cell = function (x, y) {
         return this.tcell(this.p2t(x), this.p2t(y));
     };
     Entity.prototype.tcell = function (tx, ty) {
         return this.model.cells[tx + (ty * this.levelWidth)];
+    };
+
+    Entity.prototype.overlap = function (x1, y1, w1, h1, x2, y2, w2, h2) {
+        return !(((x1 + w1 - 1) < x2) ||
+            ((x2 + w2 - 1) < x1) ||
+            ((y1 + h1 - 1) < y2) ||
+            ((y2 + h2 - 1) < y1))
     };
 
     return Entity;

@@ -19,8 +19,9 @@ var GameModel = (function () {
             lifes: 3,
             showTutor: true,
             isLevelLoaded:false,
-            playerPreviousTile:{x:12,y:20},
-            playerCurrentTile:{x:12,y:20}
+            playerPreviousTile:{x:12,y:11},
+            playerCurrentTile:{x:12,y:11},
+            playerCurrentPosition:{x:0,y:0}
 
         };
 

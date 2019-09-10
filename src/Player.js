@@ -33,6 +33,8 @@ var Player = (function () {
         this.maxdy = 450;
         this.impulse = 17000;
 
+        this.size = this.model.TILE;
+
 
         document.addEventListener('keydown', (ev) => this.onkey(ev, ev.keyCode, true));
         document.addEventListener('keyup', (ev) => this.onkey(ev, ev.keyCode, false));
@@ -42,12 +44,13 @@ var Player = (function () {
     Player.prototype.update = function (dt) {
         if (!this.model.isLevelLoaded) return;
         this.model.playerPreviousTile = {x: this.lastTileX, y: this.lastTileY};
-        Entity.prototype.update.call(this,dt);
+        Entity.prototype.update.call(this, dt);
 
-        this.model.playerCurrentTile = {x: this.tx, y: this.ty};
+        this.model.playerCurrentTile = {x: this.tileX, y: this.tileY};
+        this.model.playerCurrentPosition = {x: this.x, y: this.y, dy: this.dy};
 
-        this.lastTileX = this.tx;
-        this.lastTileY = this.ty;
+        this.lastTileX = this.tileX;
+        this.lastTileY = this.tileY;
     };
 
 
@@ -59,7 +62,7 @@ var Player = (function () {
             ctx.fillStyle = "#ff1037";
 
 
-        ctx.fillRect((this.x+this.size/2) + (this.dx * dt), (this.y+this.size/2) + (this.dy * dt), this.size, this.size)
+        ctx.fillRect((this.x) + (this.dx * dt), (this.y) + (this.dy * dt), this.size, this.size)
     };
 
 
