@@ -38,11 +38,14 @@ var Flea = (function () {
         this.right = true;
 
         this.size = this.tileSize/2;
+        this.killed = false;
 
 
     }
 
     Flea.prototype.draw = function (dt) {
+        if(this.killed) return;
+
         var ctx = this.model.ctx;
         ctx.fillStyle = "#ff6109";
 
@@ -53,13 +56,15 @@ var Flea = (function () {
         if (!this.model.isLevelLoaded) return;
         Entity.prototype.update.call(this,dt);
 
-
         if (this.overlap( this.model.playerCurrentPosition.x,  this.model.playerCurrentPosition.y, this.tileSize-this.size/2, this.tileSize-this.size, this.x, this.y, this.tileSize-this.size/2, this.tileSize-this.size)) {
-            console.log("overlap")
-            if (( this.model.playerCurrentPosition.dy > 0) && (this.y - this.model.playerCurrentPosition.y > this.tileSize / 2))
-            // killMonster(monster);
-                console.log("kill")
-                }
+
+            if (( this.model.playerCurrentPosition.dy > 0)){
+                // killMonster(monster);
+                this.killed =true;
+            }
+
+
+        }
 
     };
 

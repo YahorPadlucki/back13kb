@@ -186,8 +186,6 @@ var Level = (function () {
                 }
                 this.model.cells = cells;
 
-                console.log(this.model.level);
-
 
                 this.model.isLevelLoaded = true;
             });

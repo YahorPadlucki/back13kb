@@ -10,6 +10,7 @@ var Player = (function () {
         this.y = this.tileSize * this.model.playerCurrentTile.y;
         this.lastTileX = this.model.playerCurrentTile.x;
         this.lastTileY = this.model.playerCurrentTile.y;
+        this.lastDy = 0;
 
         this.speed = 1;
 
@@ -51,6 +52,7 @@ var Player = (function () {
 
         this.lastTileX = this.tileX;
         this.lastTileY = this.tileY;
+        this.lastDy = this.dy;
     };
 
 
