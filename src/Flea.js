@@ -8,30 +8,8 @@ var Flea = (function () {
 
         this.x = this.tileSize * 10;
         this.y = this.tileSize * 15;
-        this.lastTileX = this.model.playerCurrentTile.x;
-        this.lastTileY = this.model.playerCurrentTile.y;
 
         this.speed = 0.3;
-
-        this.dx = 0;
-        this.ddx = this.speed;
-        this.dy = 0;
-        this.ddy = 0;
-
-        this.levelWidth = this.model.columns;
-
-        this.level = this.model.level;
-
-        this.cells = [];
-
-        this.friction = 200;
-        this.falling = false;
-        this.accel = 200;
-        this.gravity = 500;
-
-        this.maxdx = 10;
-        this.maxdy = 450;
-        this.impulse = 17000;
 
         this.monster =true;
 
@@ -39,7 +17,6 @@ var Flea = (function () {
 
         this.size = this.tileSize/2;
         this.killed = false;
-
 
     }
 
